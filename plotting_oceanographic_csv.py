@@ -36,7 +36,7 @@ for file in files:
     print("\n")
 
 
-# Uncomment lines above in triple quotes if you need to read in the files again.
+# Uncomment lines above in triple quotes if you need to upload files to have available in Google Colab again.
 
 # Import libraries and load data
 import pandas as pd
@@ -71,7 +71,8 @@ for file in files:
 df_currents = pd.read_csv('CO-OPS__CFR1624__cu.csv', index_col=False, skipinitialspace=True)
 df_wind = pd.read_csv('CO-OPS__8724580__ws.csv', index_col=False, skipinitialspace=True)
 df_water = pd.read_csv('CO-OPS__8540433__ml.csv', index_col=False, skipinitialspace=True)
-df_visibility = pd.read_csv('CO-OPS__8453662__vs.csv', index_col=False, skipinitialspace=True)
+df_visibility = pd.read_csv('CO-OPS__8453662__vs.csv', index_col=False, skipinitialspace=True, usecols=[0, 1])
+# By adding usecols=[0, 1] to pd.read_csv for vs.csv file, we explicitly ignore the extra trailing data that can cause a header mismatch.
 
 
 # Remove leading/trailing spaces
@@ -85,8 +86,7 @@ df_visibility.columns = df_visibility.columns.str.strip()
 # Skip df_water because ml.csv file does not contain a 'Date Time' column
 df_currents['Date Time'] = pd.to_datetime(df_currents['Date Time'])
 df_wind['Date Time'] = pd.to_datetime(df_wind['Date Time'])
-df_visibility['Date Time'] = pd.to_datetime(df_visibility['Date Time'], usecols=[0, 1]) 
-# By adding usecols=[0, 1] to pd.read_csv for vs.csv file, we explicitly ignore the extra trailing data that can cause a header mismatch.
+df_visibility['Date Time'] = pd.to_datetime(df_visibility['Date Time']) 
 
 
 # Plot High Frequency Current and Wind Data first
